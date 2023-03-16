@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:food_odering_app/views/food/popular_food_details.dart';
+import 'package:food_odering_app/views/home/main_food_view.dart';
 import 'package:get/get.dart';
 
-import 'home/main_food_view.dart';
-
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // transparent status bar
+  ));
   runApp(const MyApp());
 }
 
@@ -19,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:MainFoodView(),
+      home:const PopularFoodDetails(),
     );
   }
 }

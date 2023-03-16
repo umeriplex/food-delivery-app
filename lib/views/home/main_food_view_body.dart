@@ -4,8 +4,9 @@ import 'package:food_odering_app/utils/app_ex.dart';
 import 'package:food_odering_app/utils/colors.dart';
 import 'package:food_odering_app/widgets/texts.dart';
 
-import '../utils/dimentions.dart';
-import '../widgets/icon_and_text.dart';
+import '../../utils/dimentions.dart';
+import '../../widgets/icon_and_text.dart';
+
 
 class MainFoodViewBody extends StatefulWidget {
   const MainFoodViewBody({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
     return Column(
       children: [
         // Slider Section
-        Container(
+        SizedBox(
           height: Dimentions.pageView,
           child: PageView.builder(
               controller: _pageController,
@@ -83,6 +84,82 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
 
             ],
           ),
+        ),
+        // list of foods
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context,index){
+              return Container(
+                margin: EdgeInsets.only(left: Dimentions.width24,right: Dimentions.width24,bottom: Dimentions.height10),
+                child: Row(
+                  children: [
+                    // image
+                    Container(
+                      width: Dimentions.listViewImgSize,
+                      height: Dimentions.listViewImgSize,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Dimentions.radius20),
+                        color: AppColors.white54,
+                        image: const DecorationImage(
+                          image: AssetImage("assets/image/food0.png"),
+                          fit: BoxFit.cover
+                        )
+                      ),
+                    ),
+                    // text
+                    Expanded(
+                      child: Container(
+                        height: Dimentions.listViewTextContSize,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(Dimentions.radius20),
+                            bottomRight: Radius.circular(Dimentions.radius20),
+                          ),
+                          color: AppColors.white,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: Dimentions.width10,right: Dimentions.width10,top: Dimentions.height10,bottom: Dimentions.height10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              BigText(text: "Afghani Pizza"),
+                              SmallText(text: "Mountain of cheese and chicken, with a touch of garlic."),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextAndIcon(
+                                    size: Dimentions.icon24,
+                                    icon: Icons.circle_sharp,
+                                    text: "Normal",
+                                    iconColor: AppColors.iconColor1,
+                                  ),
+                                  TextAndIcon(
+                                    size: Dimentions.icon24,
+                                    icon: Icons.location_on,
+                                    text: "2.4km",
+                                    iconColor: AppColors.mainColor,
+                                  ),
+                                  TextAndIcon(
+                                    size: Dimentions.icon24,
+                                    icon: Icons.access_time_outlined,
+                                    text: "12min",
+                                    iconColor: AppColors.iconColor2,
+                                  ),
+
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              );
+            }
         ),
       ],
     );

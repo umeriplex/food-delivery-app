@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../utils/colors.dart';
-import '../utils/dimentions.dart';
-import '../widgets/texts.dart';
+import '../../utils/colors.dart';
+import '../../utils/dimentions.dart';
+import '../../widgets/texts.dart';
 import 'main_food_view_body.dart';
 
 class MainFoodView extends StatefulWidget {
@@ -59,7 +59,7 @@ class _MainFoodViewState extends State<MainFoodView> {
             ),
           ),
           // body
-          MainFoodViewBody(),
+          const Expanded(child: SingleChildScrollView(child: MainFoodViewBody())),
         ],
       ),
     );

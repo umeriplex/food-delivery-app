@@ -22,6 +22,8 @@ class Dimentions{
 
   // todo DYNAMIC FONT SIZE
   static double font20 = screenHeight/42.2;
+  static double font16 = screenHeight/52.75;
+  static double font26 = screenHeight/32.46;
 
   // todo DYNAMIC RADIUS
   static double radius20 = screenHeight/42.2;
@@ -38,6 +40,17 @@ class Dimentions{
 
   // todo DYNAMIC ICONS SIZE
   static double icon24 = screenHeight/35.17;
+  static double icon16 = screenHeight/52.75;
+
+  // todo DYNAMIC LIST VIEW SIZE
+  static double listViewImgSize = screenWidth/3.25;
+  static double listViewTextContSize = screenWidth/3.9;
+
+  // popular food
+  static double popularFoodImgSize = screenHeight/2.41;
+
+  //Bottom Height
+  static double bottomHeightBar = screenHeight/7.03;
 
 
 

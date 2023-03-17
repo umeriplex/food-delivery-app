@@ -52,7 +52,7 @@ class _ExpandableTextState extends State<ExpandableText> {
           InkWell(
             child: Row(
               children: [
-                SmallText(text: "Show more",color: AppColors.paraColor,size: Dimentions.font16,),
+                SmallText(text: "Show more",color: AppColors.mainColor,size: Dimentions.font16,),
                 Icon(hiddenText ? Icons.arrow_drop_down_rounded : Icons.arrow_drop_up_rounded,color: AppColors.mainColor,)
               ],
             ),

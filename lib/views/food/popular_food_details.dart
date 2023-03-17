@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_odering_app/utils/app_ex.dart';
+import 'package:get/get.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/dimentions.dart';
@@ -41,7 +42,7 @@ class PopularFoodDetails extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcon(icon: Icons.arrow_back_ios_new_rounded),
+                  InkWell(onTap: (){Get.back();},child: AppIcon(icon: Icons.arrow_back_ios_new_rounded)),
                   AppIcon(icon: Icons.shopping_cart_checkout_rounded),
                 ],
               )

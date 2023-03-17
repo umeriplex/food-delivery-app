@@ -2,8 +2,13 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:food_odering_app/utils/app_ex.dart';
 import 'package:food_odering_app/utils/colors.dart';
+import 'package:food_odering_app/views/food/popular_food_details.dart';
 import 'package:food_odering_app/widgets/texts.dart';
-
+import 'package:get/get.dart';
+import '../../controllers/popular_product_controller.dart';
+import '../../controllers/recommended_food_controller.dart';
+import '../../modals/popular_product_response_modal.dart';
+import '../../utils/app_constants.dart';
 import '../../utils/dimentions.dart';
 import '../../widgets/icon_and_text.dart';
 
@@ -43,34 +48,43 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
     return Column(
       children: [
         // Slider Section
-        SizedBox(
-          height: Dimentions.pageView,
-          child: PageView.builder(
-              controller: _pageController,
-              itemCount: 5,
-              itemBuilder: (context,position){
-            return _buildPageItem(position);
-          }),
-        ),
+        GetBuilder<PopularProductController>(builder:(popularProducts){
+          return  popularProducts.isLoaded ? SizedBox(
+            height: Dimentions.pageView,
+            child: GestureDetector(
+              onTap: (){Get.to(const PopularFoodDetails(),transition: Transition.fadeIn);},
+              child: PageView.builder(
+                  controller: _pageController,
+                  itemCount:  popularProducts.popularProductList.isEmpty ? 1 : popularProducts.popularProductList.length,
+                  itemBuilder: (context,position){
+                    return _buildPageItem(position, popularProducts.popularProductList[position]);
+                  }),
+            ),
+          ) : const CircularProgressIndicator(color: AppColors.mainColor,);
+        }),
         // Dots
-        DotsIndicator(
-          dotsCount: 5,
-          position: _currentPage,
-          decorator: DotsDecorator(
-            activeColor: AppColors.mainColor,
-            size: const Size.square(9.0),
-            activeSize: const Size(18.0, 9.0),
-            activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-          ),
+        GetBuilder<PopularProductController>(
+          builder: (popularProducts) {
+            return DotsIndicator(
+              dotsCount: popularProducts.popularProductList.isEmpty ? 1 : popularProducts.popularProductList.length,
+              position: _currentPage,
+              decorator: DotsDecorator(
+                activeColor: AppColors.mainColor,
+                size: const Size.square(9.0),
+                activeSize: const Size(18.0, 9.0),
+                activeShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+              ),
+            );
+          }
         ),
-        // Popular Foods
+        // Recommended Foods
         Dimentions.height30.ph,
         Container(
           margin: EdgeInsets.only(left: Dimentions.width24),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              BigText(text: "Popular",size: 24,),
+              BigText(text: "Recommended",size: 24,),
               Dimentions.width10.pw,
               Container(
                 margin: const EdgeInsets.only(bottom: 5),
@@ -86,86 +100,90 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
           ),
         ),
         // list of foods
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (context,index){
-              return Container(
-                margin: EdgeInsets.only(left: Dimentions.width24,right: Dimentions.width24,bottom: Dimentions.height10),
-                child: Row(
-                  children: [
-                    // image
-                    Container(
-                      width: Dimentions.listViewImgSize,
-                      height: Dimentions.listViewImgSize,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimentions.radius20),
-                        color: AppColors.white54,
-                        image: const DecorationImage(
-                          image: AssetImage("assets/image/food0.png"),
-                          fit: BoxFit.cover
-                        )
-                      ),
-                    ),
-                    // text
-                    Expanded(
-                      child: Container(
-                        height: Dimentions.listViewTextContSize,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(Dimentions.radius20),
-                            bottomRight: Radius.circular(Dimentions.radius20),
+        GetBuilder<RecommendedFoodController>(
+          builder: (recommendedFood) {
+            return recommendedFood.isLoaded ? ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+                itemCount: recommendedFood.recommendedFoodList.isEmpty ? 1 : recommendedFood.recommendedFoodList.length,
+                itemBuilder: (context,index){
+                  return Container(
+                    margin: EdgeInsets.only(left: Dimentions.width24,right: Dimentions.width24,bottom: Dimentions.height10),
+                    child: Row(
+                      children: [
+                        // image
+                        Container(
+                          width: Dimentions.listViewImgSize,
+                          height: Dimentions.listViewImgSize,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Dimentions.radius20),
+                            color: AppColors.white54,
+                            image: DecorationImage(
+                              image: NetworkImage(AppConstants.imagesUrl + recommendedFood.recommendedFoodList[index].image! ?? AppConstants.foodPlaceHolder),
+                              fit: BoxFit.cover
+                            )
                           ),
-                          color: AppColors.white,
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: Dimentions.width10,right: Dimentions.width10,top: Dimentions.height10,bottom: Dimentions.height10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BigText(text: "Afghani Pizza"),
-                              SmallText(text: "Mountain of cheese and chicken, with a touch of garlic."),
-                              Row(
+                        // text
+                        Expanded(
+                          child: Container(
+                            height: Dimentions.listViewTextContSize,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(Dimentions.radius20),
+                                bottomRight: Radius.circular(Dimentions.radius20),
+                              ),
+                              color: AppColors.white,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: Dimentions.width10,right: Dimentions.width10,top: Dimentions.height10,bottom: Dimentions.height10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  TextAndIcon(
-                                    size: Dimentions.icon24,
-                                    icon: Icons.circle_sharp,
-                                    text: "Normal",
-                                    iconColor: AppColors.iconColor1,
-                                  ),
-                                  TextAndIcon(
-                                    size: Dimentions.icon24,
-                                    icon: Icons.location_on,
-                                    text: "2.4km",
-                                    iconColor: AppColors.mainColor,
-                                  ),
-                                  TextAndIcon(
-                                    size: Dimentions.icon24,
-                                    icon: Icons.access_time_outlined,
-                                    text: "12min",
-                                    iconColor: AppColors.iconColor2,
-                                  ),
+                                  BigText(text: recommendedFood.recommendedFoodList[index].name ?? "Food Name",),
+                                  SmallText(text: "Mountain of cheese and chicken, with a touch of garlic."),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      TextAndIcon(
+                                        size: Dimentions.icon24,
+                                        icon: Icons.circle_sharp,
+                                        text: "Normal",
+                                        iconColor: AppColors.iconColor1,
+                                      ),
+                                      TextAndIcon(
+                                        size: Dimentions.icon24,
+                                        icon: Icons.location_on,
+                                        text: "2.4km",
+                                        iconColor: AppColors.mainColor,
+                                      ),
+                                      TextAndIcon(
+                                        size: Dimentions.icon24,
+                                        icon: Icons.access_time_outlined,
+                                        text: "12min",
+                                        iconColor: AppColors.iconColor2,
+                                      ),
 
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                )
-              );
-            }
+                      ],
+                    )
+                  );
+                }
+            ) : const CircularProgressIndicator(color: AppColors.mainColor,);
+          }
         ),
       ],
     );
   }
 
-  Widget _buildPageItem(int index){
+  Widget _buildPageItem(int index, ProductModal product){
 
     Matrix4 matrix = Matrix4.identity();
     if(index == _currentPage.floor()){
@@ -201,9 +219,9 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimentions.radius30),
               color: index.isEven ? Colors.cyan : Colors.greenAccent,
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage("assets/image/food0.png"),
+                image: NetworkImage(AppConstants.imagesUrl + product.image.toString() ?? AppConstants.foodPlaceHolder),
               ),
 
             ),
@@ -238,7 +256,7 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    BigText(text: "Chicken Burger",size: 24,),
+                    BigText(text: product.name ?? "No Name",size: 24,),
                     Dimentions.height10.ph,
                     Row(
                       children: [
@@ -246,7 +264,7 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
                           children: List.generate(5, (index) => const Icon(Icons.star,color: AppColors.mainColor,size: 15,)),
                         ),
                         3.pw,
-                        SmallText(text: "4.5",color: AppColors.black54,),
+                        SmallText(text: product.stars.toString() ?? "0",color: AppColors.black54,),
                         10.pw,
                         SmallText(text: "205 comments",color: AppColors.black54,),
 
@@ -284,7 +302,6 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
 
             ),
           ),
-
         ],
       ),
     );

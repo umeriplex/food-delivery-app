@@ -1,31 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:food_odering_app/controllers/recommended_food_controller.dart';
 import 'package:food_odering_app/utils/app_ex.dart';
 import 'package:food_odering_app/utils/colors.dart';
 import 'package:food_odering_app/utils/dimentions.dart';
 import 'package:food_odering_app/widgets/expandable_text.dart';
 import 'package:food_odering_app/widgets/texts.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/popular_product_controller.dart';
+import '../../modals/popular_product_response_modal.dart';
+import '../../utils/app_constants.dart';
 import '../../widgets/app_icons.dart';
 
 class RecommendedFoodDetails extends StatelessWidget {
-  RecommendedFoodDetails({Key? key}) : super(key: key);
+  int pageId;
+  RecommendedFoodDetails({Key? key,required this.pageId}) : super(key: key);
 
   final scrollController = ScrollController();
+  ProductModal? product;
 
   @override
   Widget build(BuildContext context) {
+    product = Get.find<RecommendedFoodController>().recommendedFoodList[pageId];
+
     return Scaffold(
       backgroundColor: AppColors.white,
       body: CustomScrollView(
         controller: scrollController,
         slivers: <Widget>[
           SliverAppBar(
+            automaticallyImplyLeading: false,
             elevation: 8.0,
             toolbarHeight: Dimentions.height45 + 30,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios_new_rounded),
+                InkWell(
+                onTap: () {
+                      Get.back();
+                    }
+                ,child: AppIcon(icon: Icons.arrow_back_ios_new_rounded)),
                 AppIcon(icon: Icons.shopping_cart_checkout_rounded),
               ],
             ),
@@ -44,7 +58,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                 ),
                 child: Center(
                     child: BigText(
-                  text: "Mexican Biryani",
+                  text: product!.name.toString()??"Food Name",
                   size: Dimentions.font26,
                 )),
               ),
@@ -53,8 +67,8 @@ class RecommendedFoodDetails extends StatelessWidget {
             pinned: true,
             expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/image/food0.png",
+              background: Image.network(
+                AppConstants.imagesUrl+product!.image.toString() ?? AppConstants.foodPlaceHolder,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -65,7 +79,7 @@ class RecommendedFoodDetails extends StatelessWidget {
               children: [
                 Container(
                   margin: EdgeInsets.only(left: Dimentions.width15, right: Dimentions.width15),
-                  child: ExpandableText(text: "Umer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer Umer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmerUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikharUmer iftikhar",) ,
+                  child: ExpandableText(text: product!.description.toString() ?? "Description",) ,
                 ),
               ],
             ),
@@ -87,7 +101,7 @@ class RecommendedFoodDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppIcon(icon: Icons.remove, color: AppColors.white,background: AppColors.mainColor,iconSize: Dimentions.icon24,),
-                BigText(text: "\$500.00 "+" X "+" 0",size: Dimentions.font26,color: AppColors.mainBlackColor,),
+                BigText(text: "\$${product!.price.toString() ?? "N/A"}.0  X  0",size: Dimentions.font26,color: AppColors.mainBlackColor,),
                 AppIcon(icon: Icons.add, color: AppColors.white,background: AppColors.mainColor,iconSize: Dimentions.icon24),
               ],
             ),
@@ -121,7 +135,7 @@ class RecommendedFoodDetails extends StatelessWidget {
                     borderRadius: BorderRadius.circular(Dimentions.radius20),
                     color: AppColors.mainColor,
                   ),
-                  child: BigText(text:"\$10 | Add to cart",color: AppColors.white,),
+                  child: BigText(text:"\$${product!.price.toString() ?? "N/A"}.0 | Add to cart",color: AppColors.white,),
                 ),
 
               ],

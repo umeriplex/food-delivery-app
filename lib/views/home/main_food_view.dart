@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/popular_product_controller.dart';
+import '../../controllers/recommended_food_controller.dart';
 import '../../utils/colors.dart';
 import '../../utils/dimentions.dart';
 import '../../widgets/texts.dart';
@@ -13,6 +16,15 @@ class MainFoodView extends StatefulWidget {
 }
 
 class _MainFoodViewState extends State<MainFoodView> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.find<PopularProductController>().getPopularProductList();
+    Get.find<RecommendedFoodController>().getRecommendedFoodList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

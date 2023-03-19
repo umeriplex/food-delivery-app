@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../data/repositories/popular_product_repo.dart';
+import '../modals/cart_modal.dart';
 import '../modals/popular_product_response_modal.dart';
 import 'cart_controller.dart';
 
@@ -52,10 +53,14 @@ class PopularProductController extends GetxController {
   }
 
   int checkQuantity(int quantity) {
-    if ((_cartItems+quantity) < 0) {
+    if ((_cartItems + quantity) < 0) {
       Get.snackbar("Item Count", "you can`t reduce more!");
+      if(_cartItems>0){
+        _quantity = - _cartItems;
+        return _quantity;
+      }
       return 0;
-    } else if ((_cartItems+quantity) > 20) {
+    } else if ((_cartItems + quantity) > 20) {
       Get.snackbar("Max Item Reached", "you can`t add more then 20.");
       return 20;
     } else {
@@ -78,16 +83,22 @@ class PopularProductController extends GetxController {
   }
 
   void addItem(ProductModal product) {
+    _cartController.addItem(product, _quantity);
 
-      _cartController.addItem(product, _quantity);
+    _quantity = 0;
+    _cartItems = _cartController.getQuantity(product);
 
-      _quantity = 0;
-      _cartItems = _cartController.getQuantity(product);
+    _cartController.items.forEach((key, value) {
+      print("The ID is: $key The Quantity is: ${value.quantity}");
+    });
+    update();
+  }
 
+  int get getTotalItems {
+    return _cartController.totalItems;
+  }
 
-      _cartController.items.forEach((key, value) {
-        print("The ID is: $key The Quantity is: ${value.quantity}");
-      });
-
+  List<CartModal> get getItems{
+      return _cartController.cartItems;
   }
 }

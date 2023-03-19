@@ -15,6 +15,7 @@ class AppColors{
   static const Color mainBlackColor = Color(0xFF332d2b);
   //static final Color yellowColor = const Color(0xFFfa7552);
   static const Color yellowColor = Color(0xFFffd379);
+  static const Color priceColor = Color(0xffdc1515);
 
 
   static const Color black54 = Colors.black54;

@@ -57,7 +57,40 @@ class PopularFoodDetails extends StatelessWidget {
                         Get.toNamed(RouteHelper.getInitial());
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios_new_rounded)),
-                  AppIcon(icon: Icons.shopping_cart_checkout_rounded),
+
+
+                  GetBuilder<PopularProductController>(
+                      builder: (popularProductController) {
+                        return InkWell(
+                          onTap: () {
+                            Get.toNamed(RouteHelper.getCartView());
+                          },
+                          child: Stack(
+                            children: [
+                              AppIcon(icon: Icons.shopping_cart_checkout_rounded),
+                              Get.find<PopularProductController>().getTotalItems >= 1
+                                  ?
+                              Positioned(
+                                  right: 1,
+                                  top: 0,
+                                  child: AppIcon(icon: Icons.circle, size: 20, color: Colors.transparent,background: AppColors.mainColor,)
+                              )
+                                  :
+                              Container(),
+
+                              Get.find<PopularProductController>().getTotalItems >= 1
+                                  ?
+                              Positioned(
+                                  right: 2,
+                                  top: 0,
+                                  child: BigText(text: Get.find<PopularProductController>().getTotalItems.toString(), color: AppColors.white,))
+                                  :
+                              Container(),
+                            ],
+                          ),
+                        );
+                      }
+                  ),
                 ],
               )),
           // Introduction of food

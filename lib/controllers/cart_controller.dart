@@ -13,9 +13,13 @@ class CartController extends GetxController {
 
   void addItem(ProductModal product, int quantity) {
 
+    var totalQuantity = 0;
+
+
     if(_items.containsKey(product.id!)){
       _items.update(product.id!, (existingItem) {
         print("UPDATED TO CART! Product Name: ${product.name} Quantity: $quantity Price:  ${product.price} ID: ${product.id}");
+        totalQuantity = existingItem.quantity! + quantity;
         return CartModal(
           id: existingItem.id,
           name: existingItem.name,
@@ -26,6 +30,10 @@ class CartController extends GetxController {
           time: DateTime.now().toString(),
         );
       });
+
+      if(totalQuantity<=0){
+        _items.remove(product.id!);
+      }
     }
 
     else{
@@ -72,5 +80,19 @@ class CartController extends GetxController {
     else{
       return 0;
     }
+  }
+
+  int get totalItems{
+    var totalQuantity = 0;
+    _items.forEach((key, value) {
+      totalQuantity += value.quantity!;
+    });
+    return totalQuantity;
+  }
+
+  List<CartModal> get cartItems{
+    return _items.entries.map((e){
+      return e.value;
+    }).toList();
   }
 }

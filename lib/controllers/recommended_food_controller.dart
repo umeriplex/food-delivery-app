@@ -30,4 +30,6 @@ class RecommendedFoodController extends GetxController {
       print('Error : ${response.body} with response code : ${response.statusCode}');
     }
   }
+
+
 }

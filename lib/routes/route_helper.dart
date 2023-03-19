@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../views/cart/cart_page.dart';
 import '../views/food/popular_food_details.dart';
 import '../views/food/recomended_food_details.dart';
 import '../views/home/main_food_view.dart';
@@ -15,6 +16,9 @@ class RouteHelper {
 
   static const String recommendedFood = "/recommended_food";
   static String getRecommendedFood(int pageID)=> '$recommendedFood?pageID=$pageID';
+
+  static const String cartView = "/cart_view";
+  static String getCartView()=> cartView;
 
   // TODO .......:::::::::: ROUTES ::::::::::...............
 
@@ -36,5 +40,7 @@ class RouteHelper {
           return RecommendedFoodDetails(pageId: int.parse(pageId.toString()));
         },
         transition: Transition.fadeIn),
+
+    GetPage(name: cartView, page: () => const CartView(), transition: Transition.fadeIn),
   ];
 }

@@ -107,7 +107,7 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
                 itemBuilder: (context,index){
                   return GestureDetector(
                     onTap: (){
-                      Get.toNamed(RouteHelper.getRecommendedFood(index));
+                      Get.toNamed(RouteHelper.getRecommendedFood(index,"null"));
                     },
                     child: Container(
                       margin: EdgeInsets.only(left: Dimentions.width24,right: Dimentions.width24,bottom: Dimentions.height10),
@@ -182,6 +182,7 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
             ) : const CircularProgressIndicator(color: AppColors.mainColor,);
           }
         ),
+        (Dimentions.height10-5).ph,
       ],
     );
   }
@@ -218,7 +219,7 @@ class _MainFoodViewBodyState extends State<MainFoodViewBody> {
         children: [
           GestureDetector(
             onTap: (){
-              Get.toNamed(RouteHelper.getPopularFood(index));
+              Get.toNamed(RouteHelper.getPopularFood(index,"null"));
             },
             child: Container(
               height: height,

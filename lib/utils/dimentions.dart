@@ -46,12 +46,13 @@ class Dimentions{
   static double listViewImgSize = screenWidth/3.25;
   static double listViewTextContSize = screenWidth/3.9;
 
-  // popular food
+  // TODO popular food
   static double popularFoodImgSize = screenHeight/2.41;
 
-  //Bottom Height
+  // TODO Bottom Height
   static double bottomHeightBar = screenHeight/7.03;
 
-
+  // TODO SPLASH SCREEN IMAGE SIZE
+  static double splashImage = screenHeight/3.38;
 
 }

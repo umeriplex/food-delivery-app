@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:food_odering_app/controllers/popular_product_controller.dart';
 import 'package:food_odering_app/data/repositories/cart_repo.dart';
@@ -17,13 +18,19 @@ import '../../widgets/title_rsting_widgte.dart';
 
 class PopularFoodDetails extends StatelessWidget {
   int pageId;
-  PopularFoodDetails({Key? key, required this.pageId}) : super(key: key);
+  String page;
+  PopularFoodDetails({Key? key, required this.pageId,required this.page}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     var product = Get.find<PopularProductController>().popularProductList[pageId];
     Get.find<PopularProductController>().initProduct(Get.find<CartController>(),product);
+
+    if (kDebugMode) {
+      print("PAGE ID POPULAR : $pageId");
+    }
+
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Stack(
@@ -54,7 +61,13 @@ class PopularFoodDetails extends StatelessWidget {
                 children: [
                   InkWell(
                       onTap: () {
-                        Get.toNamed(RouteHelper.getInitial());
+                        if(page=="cart"){
+                          page = "";
+                          Get.toNamed(RouteHelper.getCartView());
+                        }else{
+                          page = "";
+                          Get.toNamed(RouteHelper.getInitial());
+                        }
                       },
                       child: AppIcon(icon: Icons.arrow_back_ios_new_rounded)),
 
@@ -63,12 +76,16 @@ class PopularFoodDetails extends StatelessWidget {
                       builder: (popularProductController) {
                         return InkWell(
                           onTap: () {
+                            if(popularProductController.getTotalItems >= 1){
                             Get.toNamed(RouteHelper.getCartView());
+                            }else{
+                              Get.snackbar("Empty Cart :(", "Please add some items to cart");
+                            }
                           },
                           child: Stack(
                             children: [
                               AppIcon(icon: Icons.shopping_cart_checkout_rounded),
-                              Get.find<PopularProductController>().getTotalItems >= 1
+                              popularProductController.getTotalItems >= 1
                                   ?
                               Positioned(
                                   right: 1,

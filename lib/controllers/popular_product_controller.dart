@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../data/repositories/popular_product_repo.dart';
@@ -20,11 +21,11 @@ class PopularProductController extends GetxController {
   Future<void> getPopularProductList() async {
     Response response = await popularProductRepo.getPopularProductList();
     if (response.statusCode == 200) {
-      print("GET PRODUTCS DATA!");
+      if (kDebugMode) {
+        print("GET PRODUCTS DATA!");
+      }
       _popularProductList = [];
       _popularProductList.addAll(Product.fromJson(response.body).products);
-      print(_popularProductList[0].image.toString());
-      print(_popularProductList[0].name.toString());
       _isLoaded = true;
       update();
     } else {
@@ -77,9 +78,9 @@ class PopularProductController extends GetxController {
     if (exist) {
       _cartItems = _cartController.getQuantity(product);
     }
-    print("THE QUANTITY IN CART IS: $_cartItems");
+   // print("THE QUANTITY IN CART IS: $_cartItems");
 
-    print("exist or not ? $exist");
+    //print("exist or not ? $exist");
   }
 
   void addItem(ProductModal product) {
@@ -89,7 +90,7 @@ class PopularProductController extends GetxController {
     _cartItems = _cartController.getQuantity(product);
 
     _cartController.items.forEach((key, value) {
-      print("The ID is: $key The Quantity is: ${value.quantity}");
+     // print("The ID is: $key The Quantity is: ${value.quantity}");
     });
     update();
   }

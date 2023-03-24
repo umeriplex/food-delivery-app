@@ -15,4 +15,9 @@ class AppConstants{
 
   // TODO ...........:::::::::::: INTERNET IMAGES :::::::::::.............
   static const String foodPlaceHolder = "https://theme-assets.getbento.com/sensei/c473521.sensei/assets/images/catering-item-placeholder-704x520.png";
+
+  // TODO ...........:::::::::::: CART LIST :::::::::::.............
+  static const String CART_LIST = "cart_list";
+  static const String CART_HISTORY = "cart_history";
+
 }

@@ -17,17 +17,11 @@ class MainFoodView extends StatefulWidget {
 
 class _MainFoodViewState extends State<MainFoodView> {
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Get.find<PopularProductController>().getPopularProductList();
-    Get.find<RecommendedFoodController>().getRecommendedFoodList();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.white,
       body: Column(
         children: [
           // header

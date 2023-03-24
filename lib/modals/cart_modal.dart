@@ -1,3 +1,5 @@
+import 'package:food_odering_app/modals/popular_product_response_modal.dart';
+
 class CartModal {
   int? id;
   String? name;
@@ -6,6 +8,7 @@ class CartModal {
   int? quantity;
   bool? isExist;
   String? time;
+  ProductModal? product;
 
   CartModal({
     this.id,
@@ -15,6 +18,7 @@ class CartModal {
     this.quantity,
     this.isExist,
     this.time,
+    this.product,
   });
 
   CartModal.fromJsom(Map<String, dynamic> json) {
@@ -25,5 +29,19 @@ class CartModal {
     quantity = json['quantity'];
     isExist = json['isExist'];
     time = json['time'];
+    product = ProductModal.fromJsom(json['product']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['price'] = price;
+    data['img'] = image;
+    data['quantity'] = quantity;
+    data['isExist'] = isExist;
+    data['time'] = time;
+    data['product'] = product!.toJson();
+    return data;
   }
 }

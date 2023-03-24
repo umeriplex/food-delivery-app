@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../data/repositories/popular_product_repo.dart';
@@ -18,16 +19,18 @@ class RecommendedFoodController extends GetxController {
   Future<void> getRecommendedFoodList() async{
     Response response = await recommendedFoodRepo.getRecommendedFoodList();
     if(response.statusCode == 200){
-      print("GET RECOMMENDED DATA!");
+      if (kDebugMode) {
+        print("GET RECOMMENDED DATA!");
+      }
       _recommendedFoodList = [];
       _recommendedFoodList.addAll(Product.fromJson(response.body).products);
-      print(_recommendedFoodList[0].image.toString());
-      print(_recommendedFoodList[0].name.toString());
       _isLoaded = true;
       update();
     }else{
       _isLoaded = false;
-      print('Error : ${response.body} with response code : ${response.statusCode}');
+      if (kDebugMode) {
+        print('Error : ${response.body} with response code : ${response.statusCode}');
+      }
     }
   }
 

@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:food_odering_app/modals/cart_modal.dart';
 import 'package:food_odering_app/modals/popular_product_response_modal.dart';
 import 'package:get/get.dart';
-
 import '../data/repositories/cart_repo.dart';
 
 class CartController extends GetxController {
@@ -10,6 +10,8 @@ class CartController extends GetxController {
 
   Map<int, CartModal> _items = {};
   Map<int, CartModal> get items => _items;
+
+  List<CartModal> storageCartItems = [];
 
   void addItem(ProductModal product, int quantity) {
 
@@ -28,6 +30,7 @@ class CartController extends GetxController {
           quantity: existingItem.quantity!+quantity,
           isExist: true,
           time: DateTime.now().toString(),
+          product: product,
         );
       });
 
@@ -48,6 +51,7 @@ class CartController extends GetxController {
             quantity: quantity,
             isExist: true,
             time: DateTime.now().toString(),
+            product: product,
           );
         });
       }else{
@@ -55,6 +59,10 @@ class CartController extends GetxController {
       }
     }
 
+    cartRepo.addToCartList(cartItems);
+
+
+    update();
 
   }
 
@@ -94,5 +102,38 @@ class CartController extends GetxController {
     return _items.entries.map((e){
       return e.value;
     }).toList();
+  }
+
+  int get totalAmount{
+    var totalAmount = 0;
+    _items.forEach((key, value) {
+      totalAmount += value.quantity! * value.price!;
+    });
+    return totalAmount;
+  }
+
+  List<CartModal> getCartData(){
+    setCart = cartRepo.getCartList();
+    return storageCartItems;
+  }
+
+  set setCart(List<CartModal> items){
+    storageCartItems = items;
+    print("LENGTH OF ITEMS IN DB: ${storageCartItems.length}");
+    for(int i = 0; storageCartItems.length > i; i++){
+      _items.putIfAbsent(storageCartItems[i].product!.id!, () => storageCartItems[i]);
+    }
+  }
+
+  void addToHistory(){
+    // debugPrint("IN CONTROLLER");
+    cartRepo.addToCartHistory();
+    clear();
+  }
+
+  void clear(){
+    _items = {};
+    _items.clear();
+    update();
   }
 }

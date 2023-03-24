@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_odering_app/controllers/popular_product_controller.dart';
+import 'package:food_odering_app/controllers/recommended_food_controller.dart';
 import 'package:food_odering_app/routes/route_helper.dart';
 import 'package:food_odering_app/utils/app_constants.dart';
 import 'package:food_odering_app/utils/app_ex.dart';
@@ -67,8 +69,9 @@ class CartView extends StatelessWidget {
                 removeTop: true,
                 child: GetBuilder<CartController>(
                   builder: (cartController) {
+                    var _cartList = cartController.cartItems;
                     return ListView.builder(
-                        itemCount: cartController.cartItems.length,
+                        itemCount: _cartList.length,
                         itemBuilder: (context, index) {
                           return Container(
                             width: double.maxFinite,
@@ -76,15 +79,31 @@ class CartView extends StatelessWidget {
                             margin: const EdgeInsets.only(bottom: 10),
                             child: Row(
                               children: [
-                                Container(
-                                  width: Dimentions.width24 * 4,
-                                  height: double.maxFinite,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(Dimentions.radius20),
-                                      image: DecorationImage(
-                                          image: NetworkImage(AppConstants.imagesUrl + cartController.cartItems[index].image.toString() ?? AppConstants.foodPlaceHolder),
-                                          fit: BoxFit.cover)),
+                                GestureDetector(
+                                  onTap:(){
+                                    var popularIndex = Get.find<PopularProductController>().popularProductList.indexWhere((element) => element.id == _cartList[index].product!.id);
+                                    print("$popularIndex----------P");
+
+
+                                    var recommendedIndex = Get.find<RecommendedFoodController>().recommendedFoodList.indexWhere((element) => element.id == _cartList[index].product!.id);
+                                    print("$recommendedIndex----------R");
+
+                                    if(popularIndex >= 0){
+                                      Get.toNamed(RouteHelper.getPopularFood(popularIndex,"cart"));
+                                    }else{
+                                      Get.toNamed(RouteHelper.getRecommendedFood(recommendedIndex,"cart"));
+                                    }
+                                  },
+                                  child: Container(
+                                    width: Dimentions.width24 * 4,
+                                    height: double.maxFinite,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(Dimentions.radius20),
+                                        image: DecorationImage(
+                                            image: NetworkImage(AppConstants.imagesUrl + _cartList[index].image.toString() ?? AppConstants.foodPlaceHolder),
+                                            fit: BoxFit.cover)),
+                                  ),
                                 ),
                                 Dimentions.height10.pw,
                                 Expanded(
@@ -94,7 +113,7 @@ class CartView extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: [
                                       BigText(
-                                        text: cartController.cartItems[index].name.toString(),
+                                        text: _cartList[index].name.toString(),
                                         color: AppColors.black54,
                                         size: Dimentions.font20,
                                       ),
@@ -104,31 +123,41 @@ class CartView extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           BigText(
-                                            text: "Price: \$${cartController.cartItems[index].price.toString()}",
+                                            text: "Price: \$${_cartList[index].product!.price! * _cartList[index].quantity!}",
                                             color: AppColors.priceColor,
                                           ),
                                           Row(
                                             children: [
-                                              AppIcon(
-                                                icon: Icons.remove,
-                                                color: AppColors.mainColor,
-                                                background: Colors.transparent,
-                                                iconSize: Dimentions.icon24,
-                                                size: Dimentions.width24,
+                                              InkWell(
+                                                onTap: () {
+                                                  cartController.addItem(_cartList[index].product!,-1);
+                                                },
+                                                child: AppIcon(
+                                                  icon: Icons.remove,
+                                                  color: AppColors.mainColor,
+                                                  background: Colors.transparent,
+                                                  iconSize: Dimentions.icon24,
+                                                  size: Dimentions.width24,
+                                                ),
                                               ),
                                               Dimentions.width10.pw,
                                               BigText(
-                                                text: "0",
+                                                text: _cartList[index].quantity.toString() ?? "NA",
                                                 color: AppColors.black54,
                                                 size: Dimentions.font20,
                                               ),
                                               Dimentions.width10.pw,
-                                              AppIcon(
-                                                icon: Icons.add,
-                                                color: AppColors.mainColor,
-                                                background: Colors.transparent,
-                                                iconSize: Dimentions.icon24,
-                                                size: Dimentions.width24,
+                                              InkWell(
+                                                onTap: () {
+                                                  cartController.addItem(_cartList[index].product!,1);
+                                                },
+                                                child: AppIcon(
+                                                  icon: Icons.add,
+                                                  color: AppColors.mainColor,
+                                                  background: Colors.transparent,
+                                                  iconSize: Dimentions.icon24,
+                                                  size: Dimentions.width24,
+                                                ),
                                               ),
                                             ],
                                           )
@@ -147,6 +176,64 @@ class CartView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+
+
+
+      bottomNavigationBar: GetBuilder<CartController>(
+          builder: (cartController) {
+            return Container(
+              height: Dimentions.bottomHeightBar,
+              padding: EdgeInsets.only(
+                  left: Dimentions.width24,
+                  top: Dimentions.height10,
+                  right: Dimentions.width24,
+                  bottom: Dimentions.height10),
+              decoration: BoxDecoration(
+                color: AppColors.buttonBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(Dimentions.radius20 * 2),
+                  topRight: Radius.circular(Dimentions.radius20 * 2),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(Dimentions.width24),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(Dimentions.radius20),
+                      color: AppColors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        BigText(text: "Total: \$${cartController.totalAmount.toString()}"),
+                      ],
+                    ),
+                  ),
+
+                  GestureDetector(
+                    onTap: () {
+                      // debugPrint("Check Out");
+                      cartController.addToHistory();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(Dimentions.width24),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Dimentions.radius20),
+                        color: AppColors.mainColor,
+                      ),
+                      child: BigText(
+                        text: "Check Out",
+                        color: AppColors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
       ),
     );
   }

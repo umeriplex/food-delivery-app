@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_odering_app/controllers/cart_controller.dart';
 import 'package:food_odering_app/routes/route_helper.dart';
+import 'package:food_odering_app/utils/colors.dart';
+import 'package:food_odering_app/views/auth/signin.dart';
+import 'package:food_odering_app/views/auth/signup.dart';
 import 'package:food_odering_app/views/food/popular_food_details.dart';
 import 'package:food_odering_app/views/food/recomended_food_details.dart';
 import 'package:food_odering_app/views/home/main_food_view.dart';
@@ -31,8 +34,9 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
-          initialRoute: RouteHelper.getSplashView(),
-          getPages: RouteHelper.routes,
+          home: SignIn(),
+          // initialRoute: RouteHelper.getSplashView(),
+          // getPages: RouteHelper.routes,
         );
       });
     });

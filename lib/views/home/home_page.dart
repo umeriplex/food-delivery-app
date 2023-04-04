@@ -4,6 +4,9 @@ import 'package:food_odering_app/utils/colors.dart';
 import 'package:food_odering_app/utils/dimentions.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../auth/signup.dart';
+import '../cart/cart_history.dart';
+import '../profile/profile_view.dart';
 import 'main_food_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,9 +21,9 @@ class _HomePageState extends State<HomePage> {
   List<Widget> _buildScreens() {
     return [
       const MainFoodView(),
-      Container(color: Colors.cyan,child: const Center(child: Text("PAGE 2")),),
-      Container(color: Colors.green,child: const Center(child: Text("PAGE 3")),),
-      Container(color: Colors.purpleAccent,child: const Center(child: Text("PAGE 4")),),
+      SignUp(),
+      const CartHistory(),
+      const ProfileView(),
     ];
   }
   List<PersistentBottomNavBarItem> _navBarsItems() {

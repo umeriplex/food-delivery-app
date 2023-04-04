@@ -15,7 +15,8 @@ class CartRepo{
 
   void addToCartList(List<CartModal> cartModalList){
     /*sharedPreferences.remove(AppConstants.CART_LIST);
-    sharedPreferences.remove(AppConstants.CART_HISTORY);*/
+    sharedPreferences.remove(AppConstants.CART_HISTORY);
+    return;*/
     cart = [];
     var time = DateTime.now().toString();
     //Converting Objects to String Because SharedPreference Only (Accept/Save/Store) String ::.

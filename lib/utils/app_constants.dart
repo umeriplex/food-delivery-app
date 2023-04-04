@@ -4,13 +4,19 @@ class AppConstants{
   static const int version = 1;
 
   // TODO ...........:::::::::::: API URLS :::::::::::.............
-  static const String baseUrl = "http://mvs.bslmeiyu.com";
+  /*"http://mvs.bslmeiyu.com"*/
+  // http://127.0.0.1:8000
+  // http://127.0.0.1:8000/admin/foods/**/
+  static const String baseUrl ="http://mvs.bslmeiyu.com";
   static const String imagesUrl = "$baseUrl/uploads/";
   static const String popularProductsUrl = "/api/v1/products/popular";
+  // static const String popularProductsUrl = "/api/v1/products/drinks";
   static const String recommendedProductsUrl = "/api/v1/products/recommended";
+  static const String drinksUrl = "/api/v1/products/drinks";
+  static const String registerUrl = "/api/v1/auth/register";
 
   // TODO ...........:::::::::::: API TOKEN :::::::::::.............
-  static const String token = "";
+  static const String token = "someToken";
 
 
   // TODO ...........:::::::::::: INTERNET IMAGES :::::::::::.............

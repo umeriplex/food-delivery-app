@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food_odering_app/base/custom_snackbar.dart';
+import 'package:food_odering_app/controllers/auth_controller.dart';
+import 'package:food_odering_app/controllers/location_controller.dart';
 import 'package:food_odering_app/controllers/popular_product_controller.dart';
 import 'package:food_odering_app/controllers/recommended_food_controller.dart';
 import 'package:food_odering_app/routes/route_helper.dart';
@@ -236,8 +239,14 @@ class CartView extends StatelessWidget {
 
                   GestureDetector(
                     onTap: () {
-                      // debugPrint("Check Out");
-                      cartController.addToHistory();
+                      if (Get.find<AuthController>().userLoggedIn()){
+                        if(Get.find<LocationController>().addressList.isEmpty){
+                           Get.offNamed(RouteHelper.getAddressView());
+                        }
+                      }else{
+                        customSB("Please Sign In First", isError: true, title: "Sign In Required");
+                        Get.toNamed(RouteHelper.getSignInView());
+                      }
                     },
                     child: Container(
                       padding: EdgeInsets.all(Dimentions.width24),

@@ -7,11 +7,13 @@ class AuthTextFields extends StatelessWidget {
   String hintText;
   IconData prefixIcon;
   TextEditingController? controller;
+  bool? isObscure;
   AuthTextFields({
     super.key,
     required this.hintText,
     required this.prefixIcon,
     this.controller,
+    this.isObscure = false,
   });
 
   @override
@@ -23,13 +25,14 @@ class AuthTextFields extends StatelessWidget {
         borderRadius: BorderRadius.circular(Dimentions.radius30),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 7,
-            spreadRadius: 3,
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 5,
+            spreadRadius: 2,
           ),
         ],
       ),
       child: TextField(
+        obscureText: isObscure!,
         controller: controller,
         decoration: InputDecoration(
           // hint text,prefix icon, focused border, enabled border, border

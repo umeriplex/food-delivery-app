@@ -13,22 +13,55 @@ class AuthController extends GetxController implements GetxService {
   bool get isLoading => _isLoading;
 
   Future<BaseResponse> registration(SignUpBody body) async {
-    debugPrint("Sign Up 8");
     _isLoading = true;
+    update();
     Response response = await authRepo.registerUser(body);
-    debugPrint("Sign Up 9");
     late BaseResponse baseResponse;
     if(response.statusCode==200){
-      debugPrint("Sign Up 10");
       authRepo.saveUserToken(response.body["token"]);
       baseResponse = BaseResponse(true, "You've been registered successfully");
     }else{
+      debugPrint("ERROR ==> ${response.statusText}");
       baseResponse = BaseResponse(false, response.statusText.toString());
     }
     _isLoading = false;
     update();
     return baseResponse;
   }
+
+
+  Future<BaseResponse> login(String email, String password) async {
+    _isLoading = true;
+    update();
+    Response response = await authRepo.login(email, password);
+    late BaseResponse baseResponse;
+    if(response.statusCode==200){
+      authRepo.saveUserToken(response.body["token"]);
+      baseResponse = BaseResponse(true, "You've been Logged in successfully");
+    }else{
+      debugPrint("ERROR ==> ${response.statusText}");
+      baseResponse = BaseResponse(false, response.statusText.toString());
+    }
+    _isLoading = false;
+    update();
+    return baseResponse;
+  }
+
+  void saveUserData(String number, String password) async {
+    authRepo.saveUserNumberPassword(number, password);
+  }
+
+  bool userLoggedIn() {
+    return authRepo.userLoggedIn();
+  }
+
+  bool clearData(){
+    return authRepo.clearData();
+  }
+
+
+
+
 
 
 }

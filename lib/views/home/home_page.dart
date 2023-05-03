@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:food_odering_app/utils/colors.dart';
 import 'package:food_odering_app/utils/dimentions.dart';
+import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../controllers/location_controller.dart';
 import '../auth/signup.dart';
 import '../cart/cart_history.dart';
 import '../profile/profile_view.dart';
@@ -16,12 +18,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+
 class _HomePageState extends State<HomePage> {
   late PersistentTabController _controller;
   List<Widget> _buildScreens() {
     return [
       const MainFoodView(),
-      SignUp(),
+      Container(
+        color: AppColors.mainColor,
+        child: const Center(
+          child: Text("History"),
+        ),
+      ),
       const CartHistory(),
       const ProfileView(),
     ];
@@ -57,6 +65,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    Get.find<LocationController>().getCurrentLocation();
     _controller = PersistentTabController(initialIndex: 0);
   }
 

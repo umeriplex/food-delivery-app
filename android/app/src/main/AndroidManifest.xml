@@ -2,6 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.food_odering_app">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
     <uses-permission android:name="android.permission.INTERNET" />
    <application
        android:usesCleartextTraffic="true"
@@ -10,6 +13,11 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
        tools:targetApi="m">
+
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyB9prhqs6cUbNaO0xowCq4axC-C5FaUPzQ"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
